@@ -1,0 +1,138 @@
+import {
+    Palette,
+    AboutSlint,
+    Button,
+    VerticalBox,
+    TextEdit,
+    StandardButton,
+    LineEdit,
+} from "std-widgets.slint";
+
+export component FilePicker inherits Rectangle {
+    in-out property <string> value;
+    in property <string> button-text: "Browse";
+
+    callback request-open();
+
+    HorizontalLayout {
+        spacing: 8px;
+
+        TextInput {
+            text: root.value;
+            read-only: false;
+            horizontal-stretch: 1;
+        }
+
+        Button {
+            text: root.button-text;
+            clicked => {
+                root.request-open();
+            }
+        }
+    }
+}
+
+export component Main inherits Window {
+    // declare rust callbacks
+    in-out property <string> input;
+    in-out property <string> error;
+
+    in-out property <string> pub_file;
+    in-out property <string> sec_file;
+
+    callback encrypt_button();
+    callback decrypt_button();
+
+    callback request_open_seckey();
+    callback request_open_pubkey();
+
+    // legally obligated to put this here
+    aboutPopup := PopupWindow {
+        Rectangle {
+            min-height: 200px;
+            min-width: 200px;
+            background: Palette.background;
+            VerticalBox {
+                alignment: start;
+                Text {
+                    text: "Made with slint";
+                    horizontal-alignment: center;
+                }
+
+                AboutSlint {
+                    preferred-height: 150px;
+                }
+
+                StandardButton {
+                    kind: close;
+                }
+            }
+        }
+    }
+
+    VerticalBox {
+        alignment: stretch;
+        Text {
+            text: "AgePad";
+            font-size: 26px;
+            horizontal-alignment: center;
+        }
+
+        details := TextEdit {
+            min-height: 150px;
+            min-width: 200px;
+            vertical-stretch: 1;
+
+            placeholder-text: "Enter text";
+            text <=> input;
+        }
+
+        LineEdit {
+            text <=> error;
+            read-only: true;
+            vertical-stretch: 0;
+            horizontal-stretch: 1;
+            placeholder-text: "Er";
+        }
+
+        FilePicker {
+            value: pub_file;
+            button-text: "Public key";
+            request-open => request_open_pubkey();
+        }
+
+        FilePicker {
+            value: sec_file;
+            button-text: "Secret key";
+            request-open => request_open_seckey();
+        }
+
+        HorizontalLayout {
+            alignment: center;
+
+            Button {
+                text: "About";
+                clicked => {
+                    aboutPopup.show();
+                }
+            }
+
+            Button {
+                text: "Encrypt";
+                clicked => encrypt_button();
+            }
+
+            Button {
+                text: "Decrypt";
+                clicked => decrypt_button();
+            }
+
+            Button {
+                text: "Copy";
+                clicked => {
+                    details.copy();
+                }
+            }
+        }
+    }
+}
