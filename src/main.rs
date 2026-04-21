@@ -1,8 +1,11 @@
 use slint;
-slint::include_modules!();
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 mod crypto;
 use crypto::{decrypt, encrypt};
+
+slint::include_modules!();
+static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
 fn main() {
     let ui = Main::new().expect("Failed to initalize GUI");
@@ -19,7 +22,11 @@ fn main() {
                     ui.set_input(v.into());
                     ui.set_error("".into());
                 }
-                Err(v) => ui.set_error(v.into()),
+                Err(v) => {
+                    ERRORNUM.fetch_add(1, Ordering::SeqCst);
+                    let error_num = ERRORNUM.load(Ordering::SeqCst);
+                    ui.set_error(format!("[{}]: {}", error_num, v).into());
+                }
             }
         }
     });
@@ -36,7 +43,11 @@ fn main() {
                     ui.set_input(v.into());
                     ui.set_error("".into());
                 }
-                Err(v) => ui.set_error(v.into()),
+                Err(v) => {
+                    ERRORNUM.fetch_add(1, Ordering::SeqCst);
+                    let error_num = ERRORNUM.load(Ordering::SeqCst);
+                    ui.set_error(format!("[{}]: {}", error_num, v).into());
+                }
             }
         }
     });
