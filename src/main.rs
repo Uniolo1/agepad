@@ -1,6 +1,7 @@
 use rfd::FileDialog;
 use slint::{self, SharedString};
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::process::exit;
+use std::sync::atomic::{AtomicUsize, Ordering}:
 
 mod crypto;
 use crypto::{decrypt, does_age_exist, encrypt};
@@ -10,8 +11,13 @@ static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
 fn main() {
     if !does_age_exist() {
-        panic!("'age' is not installed on your system")
+        // the documentation for the 'age' crate was too hard to parse for what I wanted to do
+        // hence I use the system age
+        eprintln!("'age' is not installed, please install it to use this program");
+        eprintln!("https://github.com/FiloSottile/age");
+        exit(1);
     }
+
     let ui = Main::new().expect("Failed to initalize GUI");
 
     // setup encrypt callback

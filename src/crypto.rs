@@ -2,6 +2,7 @@ use std::io::Write;
 use std::process::{Command, Stdio};
 
 pub fn does_age_exist() -> bool {
+    // check to make sure 'age' is installed
     match Command::new("age").arg("--help").status() {
         Err(_) => false,
         Ok(v) => v.success(),
@@ -9,14 +10,15 @@ pub fn does_age_exist() -> bool {
 }
 
 pub fn decrypt(text: &str, seckey_file: &str) -> Result<String, String> {
+    // logic to decrypt
     let mut child = Command::new("age")
-        .arg("-d")
-        .arg("-i")
+        .arg("-d") // decrypt
+        .arg("-i") // specify seckey_file
         .arg(seckey_file)
-        .stdin(Stdio::piped())
+        .stdin(Stdio::piped()) // IO
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
-        .spawn()
+        .spawn() // create
         .map_err(|e| e.to_string())?;
 
     {
@@ -36,14 +38,15 @@ pub fn decrypt(text: &str, seckey_file: &str) -> Result<String, String> {
 }
 
 pub fn encrypt(text: &str, recipient_file: &str) -> Result<String, String> {
+    // logic to encrypt
     let mut child = Command::new("age")
-        .arg("-a")
-        .arg("-R")
+        .arg("-a") // ASCI armor the result
+        .arg("-R") // specify recipients
         .arg(recipient_file)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
-        .spawn()
+        .spawn() // create
         .map_err(|e| e.to_string())?;
 
     {
