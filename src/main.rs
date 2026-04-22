@@ -1,7 +1,10 @@
+// SPDX-License-Identifier: GPL-3.0-only
+
 use rfd::FileDialog;
-use slint::{self, SharedString};
+use slint::{self, ToSharedString};
+use std::env::var;
 use std::process::exit;
-use std::sync::atomic::{AtomicUsize, Ordering}:
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 mod crypto;
 use crypto::{decrypt, does_age_exist, encrypt};
@@ -19,6 +22,14 @@ fn main() {
     }
 
     let ui = Main::new().expect("Failed to initalize GUI");
+
+    // setup starting variables based on env variables
+    if let Ok(default_secfile) = var("AGEPAD_SECFILE") {
+        ui.set_sec_file(default_secfile.to_shared_string());
+    }
+    if let Ok(default_pubfile) = var("AGEPAD_PUBFILE") {
+        ui.set_pub_file(default_pubfile.to_shared_string());
+    }
 
     // setup encrypt callback
     let ui_weak = ui.as_weak();
@@ -67,7 +78,7 @@ fn main() {
     ui.on_request_open_seckey(move || {
         if let Some(ui) = ui_weak.upgrade() {
             if let Some(path) = FileDialog::new().pick_file() {
-                let path = SharedString::from(path.to_string_lossy().to_string());
+                let path = path.to_string_lossy().to_shared_string();
                 ui.set_sec_file(path);
             }
         }
@@ -78,7 +89,7 @@ fn main() {
     ui.on_request_open_pubkey(move || {
         if let Some(ui) = ui_weak.upgrade() {
             if let Some(path) = FileDialog::new().pick_file() {
-                let path = SharedString::from(path.to_string_lossy().to_string());
+                let path = path.to_string_lossy().to_shared_string();
                 ui.set_pub_file(path);
             }
         }
