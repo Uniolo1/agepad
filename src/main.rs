@@ -1,13 +1,17 @@
-use slint;
+use rfd::FileDialog;
+use slint::{self, SharedString};
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 mod crypto;
-use crypto::{decrypt, encrypt};
+use crypto::{decrypt, does_age_exist, encrypt};
 
 slint::include_modules!();
 static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
 fn main() {
+    if !does_age_exist() {
+        panic!("'age' is not installed on your system")
+    }
     let ui = Main::new().expect("Failed to initalize GUI");
 
     // setup encrypt callback
@@ -48,6 +52,28 @@ fn main() {
                     let error_num = ERRORNUM.load(Ordering::SeqCst);
                     ui.set_error(format!("[{}]: {}", error_num, v).into());
                 }
+            }
+        }
+    });
+
+    // setup request_open_seckey callback
+    let ui_weak = ui.as_weak();
+    ui.on_request_open_seckey(move || {
+        if let Some(ui) = ui_weak.upgrade() {
+            if let Some(path) = FileDialog::new().pick_file() {
+                let path = SharedString::from(path.to_string_lossy().to_string());
+                ui.set_sec_file(path);
+            }
+        }
+    });
+
+    // setup request_open_pubkey callback
+    let ui_weak = ui.as_weak();
+    ui.on_request_open_pubkey(move || {
+        if let Some(ui) = ui_weak.upgrade() {
+            if let Some(path) = FileDialog::new().pick_file() {
+                let path = SharedString::from(path.to_string_lossy().to_string());
+                ui.set_pub_file(path);
             }
         }
     });

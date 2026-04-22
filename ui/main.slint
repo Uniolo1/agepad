@@ -18,15 +18,15 @@ export component FilePicker inherits Rectangle {
         spacing: 8px;
 
         TextInput {
-            text: root.value;
+            text <=> value;
             read-only: false;
             horizontal-stretch: 1;
         }
 
         Button {
-            text: root.button-text;
+            text: button-text;
             clicked => {
-                root.request-open();
+                request-open();
             }
         }
     }
@@ -96,13 +96,13 @@ export component Main inherits Window {
         }
 
         FilePicker {
-            value: pub_file;
+            value <=> pub_file;
             button-text: "Public key";
             request-open => request_open_pubkey();
         }
 
         FilePicker {
-            value: sec_file;
+            value <=> sec_file;
             button-text: "Secret key";
             request-open => request_open_seckey();
         }
