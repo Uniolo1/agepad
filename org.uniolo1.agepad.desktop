@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=AgePad
+Comment=AGE frontend for chat apps
+Exec=/usr/local/bin/agepad
+Terminal=false
+Categories=Utility;
+StartupNotify=true

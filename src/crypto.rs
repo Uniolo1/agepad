@@ -5,7 +5,12 @@ use std::process::{Command, Stdio};
 
 pub fn does_age_exist() -> bool {
     // check to make sure 'age' is installed
-    match Command::new("age").arg("--help").status() {
+    match Command::new("age")
+        .arg("--help")
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .status()
+    {
         Err(_) => false,
         Ok(v) => v.success(),
     }
