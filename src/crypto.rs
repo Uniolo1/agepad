@@ -2,8 +2,10 @@
 
 use std::io::Write;
 use std::process::{Command, Stdio};
+use std::sync::atomic::{AtomicBool, Ordering};
 
-pub fn does_age_exist() -> bool {
+static USE_RAGE: AtomicBool = AtomicBool::new(false);
+pub fn setup_age() -> bool {
     // check to make sure 'age' is installed
     match Command::new("age")
         .arg("--help")
@@ -11,14 +13,36 @@ pub fn does_age_exist() -> bool {
         .stderr(Stdio::null())
         .status()
     {
-        Err(_) => false,
+        Err(_) => {
+            // try 'rage'
+            match Command::new("rage")
+                .arg("--help")
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .status()
+            {
+                Err(_) => false,
+                Ok(v) => {
+                    USE_RAGE.store(true, Ordering::Relaxed);
+                    v.success()
+                }
+            }
+        }
         Ok(v) => v.success(),
+    }
+}
+
+fn age_or_rage() -> &'static str {
+    if USE_RAGE.load(Ordering::Relaxed) {
+        "rage"
+    } else {
+        "age"
     }
 }
 
 pub fn decrypt(text: &str, seckey_file: &str) -> Result<String, String> {
     // logic to decrypt
-    let mut child = Command::new("age")
+    let mut child = Command::new(age_or_rage())
         .arg("-d") // decrypt
         .arg("-i") // specify seckey_file
         .arg(seckey_file)
@@ -46,7 +70,7 @@ pub fn decrypt(text: &str, seckey_file: &str) -> Result<String, String> {
 
 pub fn encrypt(text: &str, recipient_file: &str) -> Result<String, String> {
     // logic to encrypt
-    let mut child = Command::new("age")
+    let mut child = Command::new(age_or_rage())
         .arg("-a") // ASCI armor the result
         .arg("-R") // specify recipients
         .arg(recipient_file)

@@ -7,13 +7,13 @@ use std::process::exit;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 mod crypto;
-use crypto::{decrypt, does_age_exist, encrypt};
+use crypto::{decrypt, encrypt, setup_age};
 
 slint::include_modules!();
 static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
 fn main() {
-    if !does_age_exist() {
+    if !setup_age() {
         // the documentation for the 'age' crate was too hard to parse for what I wanted to do
         // hence I use the system age
         eprintln!("'age' is not installed, please install it to use this program");
