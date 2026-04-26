@@ -96,7 +96,6 @@ pub fn encrypt(text: &str, recipient_file: &str) -> Result<String, String> {
 }
 
 // tests
-
 #[cfg(test)]
 mod tests {
     use super::*;

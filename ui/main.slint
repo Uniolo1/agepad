@@ -32,6 +32,26 @@ export component FilePicker inherits Rectangle {
     }
 }
 
+// put this here for legal reasons
+export component PopupWindow inherits Window {
+    VerticalBox {
+        alignment: stretch;
+        Text {
+            text: "Made with slint";
+            horizontal-alignment: center;
+        }
+
+        AboutSlint {
+            horizontal-stretch: 1;
+        }
+
+        StandardButton {
+            kind: close;
+        }
+    }
+}
+
+
 export component Main inherits Window {
     // declare rust callbacks
     in-out property <string> input;
@@ -40,35 +60,12 @@ export component Main inherits Window {
     in-out property <string> pub_file;
     in-out property <string> sec_file;
 
+    callback about_button();
     callback encrypt_button();
     callback decrypt_button();
 
     callback request_open_seckey();
     callback request_open_pubkey();
-
-    // legally obligated to put this here
-    aboutPopup := PopupWindow {
-        Rectangle {
-            min-height: 200px;
-            min-width: 200px;
-            background: Palette.background;
-            VerticalBox {
-                alignment: start;
-                Text {
-                    text: "Made with slint";
-                    horizontal-alignment: center;
-                }
-
-                AboutSlint {
-                    preferred-height: 150px;
-                }
-
-                StandardButton {
-                    kind: close;
-                }
-            }
-        }
-    }
 
     VerticalBox {
         alignment: stretch;
@@ -112,9 +109,7 @@ export component Main inherits Window {
 
             Button {
                 text: "About";
-                clicked => {
-                    aboutPopup.show();
-                }
+                clicked => about_button();
             }
 
             Button {
