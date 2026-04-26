@@ -107,6 +107,7 @@ fn main() {
                 Ok(v) => {
                     let run = v.run();
                     if let Err(v) = run {
+                        // TODO: Fix "nested event loops are not supported"
                         report_error!(ui, v);
                     }
                 }
