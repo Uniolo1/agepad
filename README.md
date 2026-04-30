@@ -7,11 +7,16 @@ This requires the 'age' program to be installed or `rage` program to be installe
 Licensed under the GPLv3 (only) inorder to *ensure* license compatability with Slint (the GUI framework).
 
 ## FAQ
+(In)frequently asked questions
+
 ### Why is there a `Makefile`?
 Primarily for `make test`.
 
+### Why is the "about" button there?
+Currently, it just displays the [AboutSlint](https://docs.slint.dev/latest/docs/slint/reference/std-widgets/misc/aboutslint/) widget, it will display more in the future however. It is more of a placeholder than anything.
+
 ### All the tests ending in `_rage` are failing!
-Install `rage` **and add it to PATH**!
+Install `rage`, **and add it to PATH**!
 
 ### All the tests ending in `_age` are failing!
 Install `age`.
