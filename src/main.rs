@@ -2,7 +2,9 @@
 
 use rfd::FileDialog;
 use slint::{self, SharedString};
+use std::process::exit;
 use std::sync::atomic::{AtomicUsize, Ordering};
+use webbrowser;
 
 mod crypto;
 use crypto::{decrypt, encrypt, setup_age};
@@ -10,9 +12,18 @@ use crypto::{decrypt, encrypt, setup_age};
 slint::include_modules!();
 static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
+fn install_gui() {
+    let ui = GetAge::new().expect("Failed to initalize GUI");
+    ui.on_open_url(|url| {
+        println!("Opening {}", url);
+        webbrowser::open(url.as_str()).expect("Failed to open browser");
+    });
+}
+
 fn main() {
     if !setup_age() {
-        panic!("'age' is not installed on your system")
+        install_gui();
+        exit(1);
     }
     let ui = Main::new().expect("Failed to initalize GUI");
 

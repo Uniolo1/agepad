@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: GPL-3.0-only
+import { VerticalBox, Button, HorizontalBox } from "std-widgets.slint";
+
+export component GetAge inherits Window {
+    callback open_url(url: string);
+    VerticalBox {
+        Text {
+            text: "Please install either AGE or RAGE!";
+            horizontal-alignment: center;
+        }
+
+        HorizontalBox {
+            Button {
+                text: "Get AGE";
+                clicked => open_url("https://github.com/FiloSottile/age");
+            }
+
+            Button {
+                text: "Get RAGE";
+                clicked => open_url("https://github.com/str4d/rage");
+            }
+        }
+    }
+}

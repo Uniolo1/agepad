@@ -120,6 +120,7 @@ dependencies = [
  "rfd",
  "slint",
  "slint-build",
+ "webbrowser",
 ]
 
 [[package]]

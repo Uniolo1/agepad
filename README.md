@@ -1,3 +1,4 @@
+![Made with Slint](https://slint.dev/logo/MadeWithSlint-logo-dark.svg)
 # AgePad
 Frontend for 'age'.
 
