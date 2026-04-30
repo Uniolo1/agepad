@@ -14,4 +14,4 @@ Primarily for `make test`.
 Install `rage` **and add it to PATH**!
 
 ### All the tests ending in `_age` are failing!
-Install `aeg`.
+Install `age`.
