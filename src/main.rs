@@ -18,6 +18,7 @@ fn install_gui() {
         println!("Opening {}", url);
         webbrowser::open(url.as_str()).expect("Failed to open browser");
     });
+    ui.run().expect("Failed to run GUI");
 }
 
 fn main() {
