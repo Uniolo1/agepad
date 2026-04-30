@@ -1,4 +1,4 @@
-![Made with Slint](https://slint.dev/logo/MadeWithSlint-logo-dark.svg)
+![Made with Slint](https://slint.dev/logo/MadeWithSlint-logo-dark.svg) <!-- This displays on my labtop (with firefox) but not on another labtop with chome. -->
 # AgePad
 Frontend for 'age'.
 
@@ -12,3 +12,6 @@ Primarily for `make test`.
 
 ### All the tests ending in `_rage` are failing!
 Install `rage` **and add it to PATH**!
+
+### All the tests ending in `_age` are failing!
+Install `aeg`.
