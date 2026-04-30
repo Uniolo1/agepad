@@ -12,11 +12,18 @@ use crypto::{decrypt, encrypt, setup_age};
 slint::include_modules!();
 static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
+macro_rules! url_open {
+    ($url:expr) => {{
+        let url_ref = $url;
+        println!("Opening {}", &url_ref);
+        webbrowser::open(&url_ref) // NOTE: returned
+    }};
+}
+
 fn install_gui() {
     let ui = GetAge::new().expect("Failed to initalize GUI");
     ui.on_open_url(|url| {
-        println!("Opening {}", url);
-        webbrowser::open(url.as_str()).expect("Failed to open browser");
+        url_open!(url).expect("Failed to open URL");
     });
     ui.run().expect("Failed to run GUI");
 }
@@ -90,6 +97,14 @@ fn main() {
                 ui.set_pub_file(path);
             }
         }
+    });
+
+    // setup open_url callback
+    ui.on_open_url(|url| {
+        if let Err(e) = url_open!(url) {
+            // Would use the error thingy below the text field but im running into weird errors
+            eprintln!("Failed to open URL: {}", e);
+        };
     });
 
     ui.run().expect("Failed to run GUI");

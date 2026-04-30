@@ -41,6 +41,7 @@ export component Main inherits Window {
     in-out property <string> pub_file;
     in-out property <string> sec_file;
 
+    callback open_url(url: string);
     callback encrypt_button();
     callback decrypt_button();
 
@@ -54,16 +55,21 @@ export component Main inherits Window {
             min-width: 200px;
             background: Palette.background;
             VerticalBox {
-                alignment: start;
+                alignment: stretch;
                 Text {
-                    text: "Made with slint";
+                    text: "About AgePad";
                     horizontal-alignment: center;
                 }
 
                 AboutSlint {
                     preferred-height: 150px;
+                    horizontal-stretch: 1;
                 }
 
+                Button {
+                    text: "Source code";
+                    clicked => open_url("https://github.com/uniolo1/agepad");
+                }
                 StandardButton {
                     kind: close;
                 }
