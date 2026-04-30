@@ -1,4 +1,5 @@
-![Made with Slint](https://slint.dev/logo/MadeWithSlint-logo-dark.svg) <!-- This displays on my labtop (with firefox) but not on another labtop with chome???
+![Made with Slint](https://slint.dev/logo/MadeWithSlint-logo-dark.svg)
+<!-- ^^^ This displays on my labtop (with firefox) but not on another labtop with chome???
 EDIT: Now it displays after clicking the link????-->
 # AgePad
 Frontend for 'age'.
