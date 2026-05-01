@@ -13,6 +13,7 @@ use crypto::{decrypt, encrypt, setup_age};
 slint::include_modules!();
 static ERRORNUM: AtomicUsize = AtomicUsize::new(0);
 
+// #region: macros
 macro_rules! url_open {
     ($url:expr) => {{
         let url_ref = $url;
@@ -28,6 +29,7 @@ macro_rules! report_error {
         $ui.set_error(format!("[{}]: {}", error_num, $val).into());
     }};
 }
+// #endregion
 
 fn install_gui() {
     let ui = GetAge::new().expect("Failed to initalize GUI");
@@ -113,11 +115,13 @@ fn main() {
     });
 
     // setup open_url callback
-    ui.on_open_url(|url| {
-        if let Err(e) = url_open!(url) {
-            // Would use the error thingy below the text field but im running into weird errors
-            eprintln!("Failed to open URL: {}", e);
-        };
+    let ui_weak = ui.as_weak();
+    ui.on_open_url(move |url| {
+        if let Some(ui) = ui_weak.upgrade() {
+            if let Err(e) = url_open!(url) {
+                report_error!(ui, e);
+            };
+        }
     });
 
     ui.run().expect("Failed to run GUI");
