@@ -20,14 +20,22 @@ macro_rules! url_open {
     }};
 }
 
-fn install_gui() {
+macro_rules! report_error {
+    ($ui:expr, $val:expr) => {{
+        ERRORNUM.fetch_add(1, Ordering::SeqCst);
+        let error_num = ERRORNUM.load(Ordering::SeqCst);
+        $ui.set_error(format!("[{}]: {}", error_num, $val).into());
+    }};
+}
+
+fn install_gui() -> () {
     let ui = GetAge::new().expect("Failed to initalize GUI");
 
     ui.on_open_url(|url| {
         url_open!(url).expect("Failed to open URL");
     });
     ui.on_quit(|| {
-        exit(0);
+        return;
     });
 
     ui.run().expect("Failed to run GUI");
@@ -52,11 +60,7 @@ fn main() {
                     ui.set_input(v.into());
                     ui.set_error("".into());
                 }
-                Err(v) => {
-                    ERRORNUM.fetch_add(1, Ordering::SeqCst);
-                    let error_num = ERRORNUM.load(Ordering::SeqCst);
-                    ui.set_error(format!("[{}]: {}", error_num, v).into());
-                }
+                Err(v) => report_error!(ui, v),
             }
         }
     });
@@ -73,11 +77,7 @@ fn main() {
                     ui.set_input(v.into());
                     ui.set_error("".into());
                 }
-                Err(v) => {
-                    ERRORNUM.fetch_add(1, Ordering::SeqCst);
-                    let error_num = ERRORNUM.load(Ordering::SeqCst);
-                    ui.set_error(format!("[{}]: {}", error_num, v).into());
-                }
+                Err(v) => report_error!(ui, v),
             }
         }
     });

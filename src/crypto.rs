@@ -95,14 +95,14 @@ pub fn encrypt(text: &str, recipient_file: &str) -> Result<String, String> {
     Ok(String::from_utf8_lossy(&output.stdout).to_string())
 }
 
-// tests
+// tests for crypto.rs
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::fs;
 
     fn decrypt_text() {
-        // uses testdata/enc/test1.age
+        // decrypts testdata/enc/test1.age and sees if the text is different than what is expected
         let encrypted =
             fs::read_to_string("./misc/testdata/enc/test1.age").expect("Failed to read file");
         let decrypted =
@@ -115,6 +115,7 @@ mod tests {
     }
 
     fn encrypt_text() {
+        // encrypts text then decrypts it, and sees if the text changes
         let decrypted = "Why do we even use Lorem Ipsum? What is Lorem Ipsum?";
         let encrypted =
             encrypt(decrypted, "./misc/testdata/testkey.pub.txt").expect("Failed to encrypt");
