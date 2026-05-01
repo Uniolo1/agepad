@@ -22,9 +22,14 @@ macro_rules! url_open {
 
 fn install_gui() {
     let ui = GetAge::new().expect("Failed to initalize GUI");
+
     ui.on_open_url(|url| {
         url_open!(url).expect("Failed to open URL");
     });
+    ui.on_quit(|| {
+        exit(0);
+    });
+
     ui.run().expect("Failed to run GUI");
 }
 
