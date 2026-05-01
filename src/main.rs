@@ -2,6 +2,7 @@
 
 use rfd::FileDialog;
 use slint::{self, SharedString};
+use std::env;
 use std::process::exit;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use webbrowser;
@@ -28,24 +29,31 @@ macro_rules! report_error {
     }};
 }
 
-fn install_gui() -> () {
+fn install_gui() {
     let ui = GetAge::new().expect("Failed to initalize GUI");
 
     ui.on_open_url(|url| {
         url_open!(url).expect("Failed to open URL");
     });
-    ui.on_quit(|| {
-        return;
-    });
+    ui.on_quit(|| exit(1)); // tried having it return, did not work
 
     ui.run().expect("Failed to run GUI");
 }
 
 fn main() {
-    if !setup_age() {
+    let args: Vec<String> = env::args().collect();
+
+    // handle --get-age
+    let trigger_get_age = args
+        .iter()
+        .any(|arg| matches!(arg.as_str(), "-ga" | "--get-age"));
+
+    // prompt to install 'age' GUI
+    if !setup_age() || trigger_get_age {
         install_gui();
         exit(1);
     }
+
     let ui = Main::new().expect("Failed to initalize GUI");
 
     // setup encrypt callback
