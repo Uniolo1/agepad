@@ -103,6 +103,10 @@ mod tests {
 
     fn decrypt_text() {
         // decrypts testdata/enc/test1.age and sees if the text is different than what is expected
+
+        // more of a test to see if the input of a message encryped with 'age' (not necessarily AgePad),
+        // will be the same as the output of the message decrypted with AgePad.
+
         let encrypted =
             fs::read_to_string("./misc/testdata/enc/test1.age").expect("Failed to read file");
         let decrypted =
@@ -116,6 +120,10 @@ mod tests {
 
     fn encrypt_text() {
         // encrypts text then decrypts it, and sees if the text changes
+
+        // more of a test to see if the input of a message encrypted with AgePad,
+        // will be the same as the output of the message using AgePad.
+
         let decrypted = "Why do we even use Lorem Ipsum? What is Lorem Ipsum?";
         let encrypted =
             encrypt(decrypted, "./misc/testdata/testkey.pub.txt").expect("Failed to encrypt");
@@ -125,6 +133,8 @@ mod tests {
                 .expect("Failed to encrypt")
         );
     }
+
+    // run the tests with 'age' and 'rage':
 
     #[test]
     fn decrypt_text_age() {

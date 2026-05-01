@@ -45,7 +45,7 @@ fn install_gui() {
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    // handle --get-age
+    // handle "--get-age"
     let trigger_get_age = args
         .iter()
         .any(|arg| matches!(arg.as_str(), "-ga" | "--get-age"));
@@ -68,13 +68,12 @@ fn main() {
             match encrypt(&input, &pub_file) {
                 Ok(v) => {
                     ui.set_input(v.into());
-                    ui.set_error("".into());
+                    ui.set_error("".into()); // avoids the user getting confused
                 }
                 Err(v) => report_error!(ui, v),
             }
         } else {
             // NOTE: 'ui_weak.upgrade()' returns 'none' on upgrade fail,
-            // there is no error message we can report to the user.
             eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
@@ -94,6 +93,7 @@ fn main() {
                 Err(v) => report_error!(ui, v),
             }
         } else {
+            // NOTE: see the previous 'NOTE'
             eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
@@ -107,6 +107,7 @@ fn main() {
                 ui.set_sec_file(path);
             }
         } else {
+            // NOTE: see the previous 'NOTE'
             eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
@@ -120,6 +121,7 @@ fn main() {
                 ui.set_pub_file(path);
             }
         } else {
+            // NOTE: see the previous 'NOTE'
             eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
@@ -132,9 +134,11 @@ fn main() {
                 report_error!(ui, e);
             };
         } else {
+            // NOTE: see the previous 'NOTE'
             eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
 
+    // after setting everything up, we can run it.
     ui.run().expect("Failed to run GUI");
 }
