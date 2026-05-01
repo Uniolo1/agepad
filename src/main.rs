@@ -72,6 +72,10 @@ fn main() {
                 }
                 Err(v) => report_error!(ui, v),
             }
+        } else {
+            // NOTE: 'ui_weak.upgrade()' returns 'none' on upgrade fail,
+            // there is no error message we can report to the user.
+            eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
 
@@ -89,6 +93,8 @@ fn main() {
                 }
                 Err(v) => report_error!(ui, v),
             }
+        } else {
+            eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
 
@@ -100,6 +106,8 @@ fn main() {
                 let path = SharedString::from(path.to_string_lossy().to_string());
                 ui.set_sec_file(path);
             }
+        } else {
+            eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
 
@@ -111,6 +119,8 @@ fn main() {
                 let path = SharedString::from(path.to_string_lossy().to_string());
                 ui.set_pub_file(path);
             }
+        } else {
+            eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
 
@@ -121,6 +131,8 @@ fn main() {
             if let Err(e) = url_open!(url) {
                 report_error!(ui, e);
             };
+        } else {
+            eprintln!("Failed to upgrade 'ui_weak'");
         }
     });
 
