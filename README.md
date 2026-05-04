@@ -28,7 +28,7 @@ Install `age`.
 <!-- Keep at bottom of README -->
 <!-- Remove when everything is done -->
 - [ ] Clean up the test suite
-- [ ] Clean up the GUI callback setup logic (and avoid creating a bunch of weaks)
+- [ ] Clean up the GUI callback setup logic
 - [ ] Remove code duplication
 - [ ] Add more stuff to the FAQ
 - [x] Add more stuff to the todo list

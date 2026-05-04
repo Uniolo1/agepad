@@ -46,7 +46,7 @@ fn install_gui() {
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    // handle "--get-age"
+    // handle "--get-age" - thingy for testing
     let trigger_get_age = args
         .iter()
         .any(|arg| matches!(arg.as_str(), "-ga" | "--get-age"));
@@ -57,6 +57,7 @@ fn main() {
         exit(1);
     }
 
+    // initalize the GUI
     let ui = Main::new().expect("Failed to initalize GUI");
 
     // setup encrypt callback
