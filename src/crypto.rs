@@ -61,7 +61,9 @@ pub fn decrypt(text: &str, seckey_file: &str) -> Result<String, String> {
     let output = child.wait_with_output().map_err(|e| e.to_string())?;
 
     if !output.status.success() {
-        return Err(String::from_utf8_lossy(&output.stderr).to_string());
+        return Err(String::from_utf8_lossy(&output.stderr)
+            .trim_end()
+            .to_string());
     }
 
     Ok(String::from_utf8_lossy(&output.stdout).to_string())
@@ -89,7 +91,9 @@ pub fn encrypt(text: &str, recipient_file: &str) -> Result<String, String> {
     let output = child.wait_with_output().map_err(|e| e.to_string())?;
 
     if !output.status.success() {
-        return Err(String::from_utf8_lossy(&output.stderr).to_string());
+        return Err(String::from_utf8_lossy(&output.stderr)
+            .trim_end()
+            .to_string());
     }
 
     Ok(String::from_utf8_lossy(&output.stdout).to_string())

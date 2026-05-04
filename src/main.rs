@@ -26,6 +26,7 @@ macro_rules! report_error {
     ($ui:expr, $val:expr) => {{
         ERRORNUM.fetch_add(1, Ordering::SeqCst);
         let error_num = ERRORNUM.load(Ordering::SeqCst);
+        eprintln!("[ERROR {}]: {}", error_num, $val);
         $ui.set_error(format!("[{}]: {}", error_num, $val).into());
     }};
 }
