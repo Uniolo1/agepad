@@ -19,7 +19,7 @@ Why not? You *can* still use `cargo` if you want.
 
 #### All the tests ending in `_rage` are failing!
 Install `rage`, **and add it to PATH**!
-<!-- May not be in PATH if installed via card, hence the "add it to PATH" -->
+<!-- May not be in PATH if installed via cargo, hence the "add it to PATH" -->
 
 #### All the tests ending in `_age` are failing!
 Install `age`.
