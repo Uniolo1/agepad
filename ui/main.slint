@@ -70,6 +70,7 @@ export component Main inherits Window {
                     text: "Source code";
                     clicked => open_url("https://github.com/uniolo1/agepad");
                 }
+
                 StandardButton {
                     kind: close;
                 }
@@ -118,13 +119,6 @@ export component Main inherits Window {
             alignment: stretch;
 
             Button {
-                text: "About";
-                clicked => {
-                    aboutPopup.show();
-                }
-            }
-
-            Button {
                 text: "Encrypt";
                 clicked => encrypt_button();
             }
@@ -132,6 +126,13 @@ export component Main inherits Window {
             Button {
                 text: "Decrypt";
                 clicked => decrypt_button();
+            }
+
+            Button {
+                text: "About";
+                clicked => {
+                    aboutPopup.show();
+                }
             }
 
             Button {
