@@ -3,7 +3,7 @@ all:
 build:
 	cargo build --release
 test:
-	cargo test -- --test-threads=1
+	cargo test
 testget:
 	cargo run -- -ga
 commit:
