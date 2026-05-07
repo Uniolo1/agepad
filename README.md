@@ -24,6 +24,9 @@ Install `rage`, **and add it to PATH**!
 #### All the tests ending in `_age` are failing!
 Install `age`.
 
+#### Can I train AI on this?
+Yes, that is allowed by the GPL, but your AI is probably going to violate the license.
+
 ## TODO
 <!-- Keep at bottom of README -->
 <!-- Remove when everything is done -->
