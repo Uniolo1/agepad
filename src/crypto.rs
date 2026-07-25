@@ -112,12 +112,12 @@ mod tests {
         // will be the same as the output of the message decrypted with AgePad.
 
         let encrypted =
-            fs::read_to_string("./misc/testdata/enc/test1.age").expect("Failed to read file");
+            fs::read_to_string("misc/testdata/enc/test1.age").expect("Failed to read file");
         let decrypted =
-            fs::read_to_string("./misc/testdata/enc/test1.txt").expect("Failed to read file");
+            fs::read_to_string("misc/testdata/enc/test1.txt").expect("Failed to read file");
         assert_eq!(
             decrypted.trim_end(),
-            decrypt(encrypted.trim_end(), "./misc/testdata/testkey.sec.txt")
+            decrypt(encrypted.trim_end(), "misc/testdata/testkey.sec.txt")
                 .expect("Decrypt failed")
         );
     }
@@ -130,10 +130,10 @@ mod tests {
 
         let decrypted = "Why do we even use Lorem Ipsum? What is Lorem Ipsum?";
         let encrypted =
-            encrypt(decrypted, "./misc/testdata/testkey.pub.txt").expect("Failed to encrypt");
+            encrypt(decrypted, "misc/testdata/testkey.pub.txt").expect("Failed to encrypt");
         assert_eq!(
             decrypted,
-            decrypt(encrypted.as_str(), "./misc/testdata/testkey.sec.txt")
+            decrypt(encrypted.as_str(), "misc/testdata/testkey.sec.txt")
                 .expect("Failed to encrypt")
         );
     }

@@ -7,8 +7,8 @@ license = "GPL-3.0-only"
 
 [dependencies]
 rfd = "0.17.2"
-slint = "1.16.0"
+slint = "1.17.1"
 webbrowser = "1.2.1"
 
 [build-dependencies]
-slint-build = "1.16.0"
+slint-build = "1.17.1"
