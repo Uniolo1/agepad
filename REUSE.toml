@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 uniolo1
+# SPDX-License-Identifier: GPL-3.0-only
+
+version = 1
+
+[[annotations]]
+path = ["Cargo.lock", "misc/testdata/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 uniolo1"
+SPDX-License-Identifier = "GPL-3.0-only"
