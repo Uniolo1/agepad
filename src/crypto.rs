@@ -1,3 +1,4 @@
+// SPDX-FileCopyrightText: 2026 uniolo1
 // SPDX-License-Identifier: GPL-3.0-only
 
 use std::io::Write;
@@ -117,8 +118,7 @@ mod tests {
             fs::read_to_string("misc/testdata/enc/test1.txt").expect("Failed to read file");
         assert_eq!(
             decrypted.trim_end(),
-            decrypt(encrypted.trim_end(), "misc/testdata/testkey.sec.txt")
-                .expect("Decrypt failed")
+            decrypt(encrypted.trim_end(), "misc/testdata/testkey.sec.txt").expect("Decrypt failed")
         );
     }
 

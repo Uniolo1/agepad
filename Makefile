@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 uniolo1
+# SPDX-License-Identifier: GPL-3.0-only
+
 all:
 	cargo run
 build:
@@ -6,7 +9,3 @@ test:
 	cargo test
 testget:
 	cargo run -- -ga
-commit:
-	# helper
-	git commit -s
-	cargo test # run 'cargo test' afterwards to ensure they are aware of testing status
